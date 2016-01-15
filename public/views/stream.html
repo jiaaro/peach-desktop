@@ -48,9 +48,23 @@
 	{% endfor %}
 
 		<div class="gray meta">
-			<i class="like fa fa-heart-o{% if post.likedByMe == true %} liked{% endif %}" data-postid="{{ post.id }}">{% if post.likeCount > 0 %} {{ post.likeCount }}{% endif %}</i>
-			<i class="comment fa fa-comment-o">{% if post.commentCount %} {{ post.commentCount }}{% endif %}</i> 
+			<i class="like-button fa fa-heart-o{% if post.likedByMe == true %} liked{% endif %}" data-postid="{{ post.id }}" data-likes="{{ post.likeCount }}">{% if post.likeCount > 0 %} {{ post.likeCount }}{% endif %}</i>
+			<i class="comment-button fa fa-comment-o" data-postid="{{ post.id }}">{% if post.commentCount %} {{ post.commentCount }}{% endif %}</i> 
 			<p> – {{ post.createdTime|fromNow }}</p>
+		</div>
+
+		<div class="comments" data-postid="{{ post.id }}">
+			<div class="comment-bar">Comments</div>
+			{% for comment in post.comments %}
+			<div class="comment">
+			<div class="small-avatar" style="background-image: url({% if comment.author.avatarSrc %}{{ comment.author.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
+			<div class="comment-body">
+				{{ comment.author.displayName }} 
+				<span class="gray">@{{ comment.author.name }}</span>
+				<p>{{ comment.body }}</p>
+			</div>
+			</div>
+			{% endfor %}
 		</div>
 
 	</div>
@@ -63,21 +77,53 @@
 
 <script>
 
-$('.like').on('click', function(){
+// Like or unlike a post
+$('.like-button').on('click', function(){
 
-	if ($(this).hasClass('liked')) {
-		// Unlike code
+	var post = $(this);
+
+	// Post is not yet liked, like it
+	if (!post.hasClass('liked')) {
+
+	  $.ajax({
+	  type: 'POST',
+	  url: 'http://localhost:1134/api/like',
+	  headers: { Authorization: 'Bearer ' + localStorage.token },
+	  data: JSON.stringify({postId: post.data('postid')}),
+	  contentType: 'application/json',
+	  success: function(data){
+	  	likes = parseInt(post.data('likes')) + 1;
+		post.text(' ' + likes).data('likes',likes).addClass('liked');
+	  },
+	  error: function(xhr, type){ alert('TBD: Load failed'); }
+	  });
+		
 	}
 
+	// Post is already liked, unlike it
 	else {
-		likePost($(this).data('postid'));
-		$(this).addClass('liked');
-		current = parseInt($(this).text());
-		if (isNaN(current)) { current = 0; }
-		updated = current + 1;
-		$(this).text(' ' + updated);
+	  $.ajax({
+	  type: 'DELETE',
+	  url: 'http://localhost:1134/api/like/postID/' + post.data('postid'),
+	  headers: { Authorization: 'Bearer ' + localStorage.token },
+	  success: function(data){
+	    likes = parseInt(post.data('likes')) - 1;
+	  	post.removeClass('liked').data('likes', likes);
+		if (likes < 1) { post.text('')} 
+			else { post.text(' ' + likes) }
+	  },
+	  error: function(xhr, type){ alert('TBD: Load failed'); }
+	  });
 	}
 
+});
+
+// View comments
+$('.comment-button').on('click', function() {
+	var post = $(this);
+	$('body').addClass('modal-open');
+	$('#overlay').show();
+    $('.comments[data-postid="' + post.data('postid') + '"]').show();
 });
 
 </script>

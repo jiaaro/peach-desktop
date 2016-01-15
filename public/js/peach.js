@@ -52,28 +52,6 @@ function loadView(view, endpoint) {
 
 }
 
-// Like post
-
-function likePost(id) {
-
-  $.ajax({
-  type: 'POST',
-  url: 'http://localhost:1134/api/like',
-  headers: { Authorization: 'Bearer ' + localStorage.token },
-  data: JSON.stringify({postId: id}),
-  contentType: 'application/json',
-  success: function(data){
-    console.log(data);
-    return true;
-  },
-  error: function(xhr, type){
-    alert('TBD: Load failed');
-    return false;
-  }
-  });
-
-}
-
 // Start app
 Zepto(function($){
 
