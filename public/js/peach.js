@@ -36,8 +36,6 @@ function login(email, password) {
 // Load view function
 function loadView(view, endpoint) {
 
-$('.loader').show();
-
   $.ajax({
   type: 'GET',
   url: 'http://localhost:1134/api' + endpoint,
@@ -46,7 +44,6 @@ $('.loader').show();
     console.log(data);
     $('#content').html(nunjucks.render(view + '.html', { [view]: data }));
     window.scrollTo(0,0);
-    $('.loader').hide();
   },
   error: function(xhr, type){
     alert('TBD: Load failed');

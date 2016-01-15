@@ -19,16 +19,6 @@
 		font-family: -apple-system, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
 	}
 
-	.loader {
-		width: 400px;
-		height: 600px;
-		position: fixed;
-		top: 0;
-		background-color: #FFF;
-		opacity: 0.5;
-		display: none;
-	}
-
 	a, a:visited {
 		color: #21A9FC;
 	}

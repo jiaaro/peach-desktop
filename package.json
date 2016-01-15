@@ -8,7 +8,8 @@
   },
   "main": "app.js",
   "scripts": {
-    "start": "electron app.js"
+    "start": "electron app.js",
+    "compile": "nunjucks-precompile public/views > public/views/compiled.js"
   },
   "keywords": [
     "peach",
