@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Peach</title>
+	<title>Peach Desktop</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/css/peach.css">
 </head>
 
 <body>
 
+<div id="loader">
+	<div class="spinner"></div>
+</div>
+
 <div id="content"></div>
 
+<!-- Precompiled Views -->
+<script src="/views/compiled.js"></script>
+
+<!-- Libraries -->
 <script src="/js/zepto.min.js"></script>
 <script src="/js/nunjucks.min.js"></script>
 <script src="/js/moment.min.js"></script>
