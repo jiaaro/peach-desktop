@@ -19,7 +19,7 @@ If `npm start` fails, first make sure you have electron-prebuilt installed via N
 Make sure you run `npm run compile` prior to packaging, to pre-compile Nunjucks templates. Then run:
 
 ```
-npm build-osx
+npm run build-osx
 ```
 
 This will package up a standalone binary in the /bin directory which can be run on x64 OS X. Tested on El Capitan 10.11.1 Beta.
