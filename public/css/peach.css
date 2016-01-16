@@ -245,7 +245,7 @@
 		opacity: 0.8;
 	}
 
-	.comments, {
+	.comments {
 		width: 360px;
 		height: 400px;
 		position: fixed;
