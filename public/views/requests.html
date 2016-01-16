@@ -14,7 +14,7 @@
 	<div class="user-details">
 		<h3>{{ request.stream.displayName }}</h3>
 		<p class="gray status">{{ request.stream.name }} sent you a friend request</p>
-	    <div class="request-actions"><p class="red decline">Decline</p> / <p class="green accept">Accept</p></div>
+	    <div class="request-actions" data-id="{{ request.id }}"><p class="red decline">Decline</p> / <p class="green accept">Accept</p></div>
 	</div>
 </div>
 {% endfor %}
@@ -30,3 +30,42 @@
 {% endfor %}
 
 </div>
+
+<script>
+
+// Accept friend request
+$('.accept').on('click', function(){
+
+	var id = $(this).parent().data('id');
+
+	  $.ajax({
+	  type: 'POST',
+	  url: 'http://localhost:1134/api/friend-request/' + id + '/accept',
+	  headers: { Authorization: 'Bearer ' + localStorage.token },
+	  success: function(data){
+	  	loadView('requests','/connections');
+	  },
+	  error: function(xhr, type){}
+	  });
+		
+});
+
+// Decline friend request
+$('.decline').on('click', function(){
+
+	var id = $(this).parent().data('id');
+
+	  $.ajax({
+	  type: 'POST',
+	  url: 'http://localhost:1134/api/friend-request/' + id + '/decline',
+	  headers: { Authorization: 'Bearer ' + localStorage.token },
+	  success: function(data){
+	  	loadView('requests','/connections');
+	  },
+	  error: function(xhr, type){}
+	  });
+		
+});
+
+
+</script>

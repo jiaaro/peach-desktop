@@ -1,5 +1,5 @@
 
-<div class="box">
+<div class="box self" onclick="loadView('stream','/stream/id/{{ connections.data.requesterStream.id }}')">
 	<div class="avatar" style="background-image: url({{connections.data.requesterStream.avatarSrc}})"></div>
 	<div class="user-details">
 		<h3>{{connections.data.requesterStream.displayName}}</h3>
@@ -14,8 +14,8 @@
 </div>
 
 <div class="bg-transparent box center no-padding">
-<button class="half-button bg-dark" onclick="loadView('requests','/connections')">Requests ({{ connections.data.inboundFriendRequests|length + connections.data.outboundFriendRequests|length }})</button>
-<button class="half-button bg-green white">Add a friend</button>
+<button class="half-button bg-dark" onclick="loadView('requests','/connections')">Requests ({{ connections.data.inboundFriendRequests|length }})</button>
+<button class="half-button bg-green white add-friend">Add a friend</button>
 </div>
 
 {% for connection in connections.data.connections %}
@@ -34,3 +34,24 @@
 	</div>
 </div>
 {% endfor %}
+
+<script>
+
+$('.add-friend').on('click', function(){
+
+var username = prompt("Enter a friend's username below", "");
+if (username != null) {
+	  $.ajax({
+	  type: 'POST',
+	  url: 'http://localhost:1134/api/stream/n/' + username + '/connection',
+	  headers: { Authorization: 'Bearer ' + localStorage.token },
+	  success: function(data){
+	  	loadView('requests','/connections');
+	  },
+	  error: function(xhr, type){}
+	  });
+}
+
+});
+
+</script>

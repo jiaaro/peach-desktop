@@ -54,6 +54,7 @@
 		</div>
 
 		<div class="comments" data-postid="{{ post.id }}">
+			<div class="close"></div>
 			<div class="comment-bar">Comments</div>
 			{% for comment in post.comments %}
 			<div class="comment">
@@ -125,5 +126,21 @@ $('.comment-button').on('click', function() {
 	$('#overlay').show();
     $('.comments[data-postid="' + post.data('postid') + '"]').show();
 });
+
+// Close comments
+$('.close').on('click', function() {
+	$('.comments').hide();
+	$('#overlay').hide();
+	$('body').removeClass('modal-open');
+});
+
+// Mark stream as read once loaded
+	$.ajax({
+	type: 'PUT',
+	url: 'http://localhost:1134/api/stream/id/{{ stream.data.id }}/read',
+	headers: { Authorization: 'Bearer ' + localStorage.token },
+	success: function(data){},
+	error: function(xhr, type){}
+	});
 
 </script>
