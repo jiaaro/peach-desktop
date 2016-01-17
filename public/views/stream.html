@@ -58,14 +58,18 @@
 			<div class="comment-bar">Comments</div>
 			{% for comment in post.comments %}
 			<div class="comment">
-			<div class="small-avatar" style="background-image: url({% if comment.author.avatarSrc %}{{ comment.author.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
-			<div class="comment-body">
-				{{ comment.author.displayName }} 
-				<span class="gray">@{{ comment.author.name }}</span>
-				<p>{{ comment.body }}</p>
-			</div>
+				<div class="small-avatar" style="background-image: url({% if comment.author.avatarSrc %}{{ comment.author.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
+				<div class="comment-body">
+					{{ comment.author.displayName }} 
+					<span class="gray">@{{ comment.author.name }}</span>
+					<p>{{ comment.body }}</p>
+				</div>
 			</div>
 			{% endfor %}
+			<form class="comment-form" data-postid="{{ post.id }}">
+				<input type="text" name="body" placeholder="Say something nice">
+				<input type="submit" value="Send" class="bg-green white">
+			</form>
 		</div>
 
 	</div>
@@ -125,6 +129,19 @@ $('.comment-button').on('click', function() {
 	$('body').addClass('modal-open');
 	$('#overlay').show();
     $('.comments[data-postid="' + post.data('postid') + '"]').show();
+});
+
+$('.comment-form').on('submit', function(e) {
+	e.preventDefault(); e.stopPropagation();
+	var form = $(this);
+	var comment = $(this).children('input[type="text"]').val();
+	var postId = $(this).data('postid');
+
+	$.post('/api/comment', JSON.stringify({ body:comment , postId:postId }), function(response){
+		console.log(response);
+		form.before('<div class="comment"><div class="small-avatar" style="background-image:url(' + localStorage.avatarSrc + ')"></div><div class="comment-body">' + localStorage.displayName + '<span class="gray"> @' + localStorage.name + '</span><p>' + comment +  '</p></div></div>');
+		form.children('input[type="text"]').val('');
+	});
 });
 
 // Close comments

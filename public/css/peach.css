@@ -71,6 +71,24 @@
 		padding: 0.5em;
 	}
 
+	.comment-form input {
+		padding: 0;
+		font-size: 0.8em;
+		padding: 0.5em;
+		display: inline-block;
+	}
+
+	.comment-form input[type="text"] {
+		background-color: #E9E9E9;
+		color: #000000;
+		width: 78%;
+	}
+
+	.comment-form input[type="submit"] {
+		width: 20%;
+		cursor: pointer;
+	}
+
 	.bg-pink {
 		background-color: #FE4E72;
 	}

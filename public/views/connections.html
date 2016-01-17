@@ -84,4 +84,9 @@ $('.close').on('click', function() {
 	$('body').removeClass('modal-open');
 });
 
+// Set global variables for reuse
+localStorage.displayName = '{{connections.data.requesterStream.displayName}}';
+localStorage.name = '{{connections.data.requesterStream.name}}';
+localStorage.avatarSrc = '{% if connections.data.requesterStream.avatarSrc %}{{ connections.data.requesterStream.avatarSrc }}{% else %}/img/default-avatar.png{% endif %}';
+
 </script>

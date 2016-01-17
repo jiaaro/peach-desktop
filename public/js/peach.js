@@ -21,6 +21,7 @@ function login(email, password) {
       if (data.data.streams) {
          localStorage.id = data.data.streams[0].id;
          localStorage.token = data.data.streams[0].token;
+         $.ajaxSettings.headers =  { Authorization: 'Bearer ' + localStorage.token };
          loadView('connections', '/connections');
       }
       else {
@@ -44,7 +45,9 @@ function loadView(view, endpoint) {
     console.log(data);
     $('#content').html(nunjucks.render(view + '.html', { [view]: data }));
     $('body').attr('id', view);
-    window.scrollTo(0,0);
+    if ($('body').attr('id') != 'connections') {
+      window.scrollTo(0,0);
+    }
   },
   error: function(xhr, type){
     alert('TBD: Load failed');
@@ -58,6 +61,7 @@ Zepto(function($){
 
   // If authorization token exists, default to connections view
   if (localStorage.token && localStorage.id) {
+   $.ajaxSettings.headers =  { Authorization: 'Bearer ' + localStorage.token };
    loadView('connections','/connections');
   }
 
@@ -77,6 +81,6 @@ Zepto(function($){
     if ($('body').attr('id') == 'connections') {
       loadView('connections', '/connections');
     }
-  }, 30000);
+  }, 60000);
 
 });
