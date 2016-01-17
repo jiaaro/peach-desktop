@@ -43,6 +43,7 @@ function loadView(view, endpoint) {
   success: function(data){
     console.log(data);
     $('#content').html(nunjucks.render(view + '.html', { [view]: data }));
+    $('body').attr('id', view);
     window.scrollTo(0,0);
   },
   error: function(xhr, type){
@@ -70,5 +71,12 @@ Zepto(function($){
       e.preventDefault(); e.stopPropagation();
       login($('#email').val(), $('#password').val());
   });
+
+  // Refresh connections every 30 seconds
+  setInterval(function(){ 
+    if ($('body').attr('id') == 'connections') {
+      loadView('connections', '/connections');
+    }
+  }, 30000);
 
 });
