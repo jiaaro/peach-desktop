@@ -34,7 +34,7 @@ var BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow () {
-	mainWindow = new BrowserWindow({title: 'Peach Desktop', icon: path.join(__dirname, 'icon.png'), width: 400, height: 600, resizable: false, titleBarStyle: 'default', show: true});
+	mainWindow = new BrowserWindow({title: 'Peach Desktop', icon: path.join(__dirname, 'icon.png'), width: 400, height: 600, resizable: false, titleBarStyle: 'default', show: true, webPreferences: { blinkFeatures: 'OverlayScrollbars', overlayScrollbars: true } });
 	mainWindow.loadURL('http://localhost:1134/index.html');
 	mainWindow.on('closed', function() {
 		mainWindow = null;
