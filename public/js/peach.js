@@ -44,10 +44,10 @@ function loadView(view, endpoint) {
   success: function(data){
     console.log(data);
     $('#content').html(nunjucks.render(view + '.html', { [view]: data }));
-    $('body').attr('id', view);
-    if ($('body').attr('id') != 'connections') {
+    if (!($('body').attr('id') == 'connections' && view == 'connections')) {
       window.scrollTo(0,0);
     }
+    $('body').attr('id', view);
   },
   error: function(xhr, type){
     alert('TBD: Load failed');

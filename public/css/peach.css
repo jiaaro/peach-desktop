@@ -69,6 +69,9 @@
 		margin: auto;
 		margin-bottom: 0.5em;
 		padding: 0.5em;
+		word-break: normal;
+		word-wrap: normal;
+		white-space: normal;
 	}
 
 	.comment-form input {

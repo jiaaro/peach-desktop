@@ -17,6 +17,12 @@ server.use('/api', function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
+// Catch random DNS errors 
+process.on('uncaughtException', function(err){
+  console.error('uncaughtException: ' + err.message);
+  console.error(err.stack);
+});
+
 /// Fire up server
 server.listen(1134, function () {
   console.log('Peach server started on port 1134!');
