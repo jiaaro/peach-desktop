@@ -195,6 +195,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		z-index: 1;
 	}
 
 	.requests {
@@ -217,6 +218,10 @@
 
 	.text, .link {
 		padding: 0em 1em;
+	}
+
+	video {
+		z-index: 0
 	}
 
 	.back-button {
