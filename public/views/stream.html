@@ -5,6 +5,14 @@
 	<h3>{{ stream.data.displayName }}</h3>
 	<p class="gray status">@{{ stream.data.name }}</p>
 	</div>
+	<div class="menu self">
+		<div class="settings fa fa-cog gray"></div>
+		<div class="notifications fa fa-bell gray"></div>
+	</div>
+	<div class="menu friend">
+		<div class="friend-connections fa fa-users gray"></div>
+		<div class="friend-status fa fa-smile-o gray"></div>
+	</div>
 </div>
 
 <div class="posts">
@@ -100,7 +108,9 @@ $('.like-button').on('click', function(){
 	  	likes = parseInt(post.data('likes')) + 1;
 		post.text(' ' + likes).data('likes',likes).addClass('liked');
 	  },
-	  error: function(xhr, type){ alert('TBD: Load failed'); }
+	  error: function(xhr, type){ 
+	  	popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
+	   }
 	  });
 		
 	}
@@ -117,7 +127,9 @@ $('.like-button').on('click', function(){
 		if (likes < 1) { post.text('')} 
 			else { post.text(' ' + likes) }
 	  },
-	  error: function(xhr, type){ alert('TBD: Load failed'); }
+	  error: function(xhr, type){ 
+	  	popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
+	  	 }
 	  });
 	}
 
@@ -152,12 +164,23 @@ $('.close').on('click', function() {
 });
 
 // Mark stream as read once loaded
-	$.ajax({
+$.ajax({
 	type: 'PUT',
 	url: 'http://localhost:1134/api/stream/id/{{ stream.data.id }}/read',
 	headers: { Authorization: 'Bearer ' + localStorage.token },
 	success: function(data){},
 	error: function(xhr, type){}
-	});
+});
+
+// Show menu (TBD)
+/*
+if ('{{ stream.data.id }}' == localStorage.id) {
+	$('.menu.self').show();	
+}
+
+else {
+	$('.menu.friend').show();
+}
+*/ 
 
 </script>

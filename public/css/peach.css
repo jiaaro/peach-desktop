@@ -74,6 +74,10 @@
 		white-space: normal;
 	}
 
+	input[type="submit"] {
+		cursor: pointer;
+	}
+
 	.comment-form input {
 		padding: 0;
 		font-size: 0.8em;
@@ -96,6 +100,10 @@
 		background-color: #FE4E72;
 	}
 
+	.bg-red {
+		background-color: #FF5D52;
+	}
+
 	.bg-green {
 		background-color: #25D87A;
 	}
@@ -107,6 +115,10 @@
 	.bg-transparent {
 		background: none;
 		border: none;
+	}
+
+	.black {
+		color: #000000;
 	}
 
 	.white {
@@ -123,6 +135,17 @@
 
 	.red, .liked {
 		color: #FE5E52;
+	}
+
+	#alert {
+		position: fixed;
+		bottom: 0;
+		padding: 16px;
+		font-size: 14px;
+		width: 400px;
+		text-align: center;
+		display: none;
+		cursor: pointer;
 	}
 
 	.connection, .back-button, .self {
@@ -196,6 +219,21 @@
 		top: 0;
 		left: 0;
 		z-index: 1;
+	}
+
+	.menu {
+		font-size: 24px;
+		top: 28px;
+		position: absolute;
+		right: 28px
+	}
+
+	.menu.self {
+		display: none;
+	}
+
+	.menu.friend {
+		display: none;
 	}
 
 	.requests {

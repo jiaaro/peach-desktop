@@ -25,11 +25,11 @@ function login(email, password) {
          loadView('connections', '/connections');
       }
       else {
-        alert('TBD: login failed / retry');
+        popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
       }
     },
     error: function(xhr, type) {
-      alert('TBD: login failed / retry');
+      popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
     }
   });
 }
@@ -50,10 +50,14 @@ function loadView(view, endpoint) {
     $('body').attr('id', view);
   },
   error: function(xhr, type){
-    alert('TBD: Load failed');
+    popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
   }
   });
 
+}
+
+function popAlert(message, background, foreground) {
+  $('#alert').removeClass().text(message).addClass(background + ' ' + foreground).velocity('slideDown').velocity("slideUp", { delay: 1500 });
 }
 
 // Start app

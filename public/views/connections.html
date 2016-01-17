@@ -67,11 +67,17 @@ if (username != null) {
 	  url: 'http://localhost:1134/api/stream/n/' + username + '/connection',
 	  headers: { Authorization: 'Bearer ' + localStorage.token },
 	  success: function(data){
-	  	$('#overlay').hide();
-	    $('body').removeClass('modal-open');
-	  	loadView('requests','/connections');
+		$('.friend-request').hide();
+		$('#overlay').hide();
+		$('body').removeClass('modal-open');
+	  	popAlert("Friend request sent!", "bg-green", "white");
 	  },
-	  error: function(xhr, type){}
+	  error: function(xhr, type){
+		$('.friend-request').hide();
+		$('#overlay').hide();
+		$('body').removeClass('modal-open');
+	  	popAlert("Couldn't send friend request. Try again.", "bg-red", "white");
+	  }
 	  });
 } 
 
