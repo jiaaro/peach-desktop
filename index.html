@@ -30,6 +30,8 @@
 	<meta property="og:locale" content="en_US">
 	<meta property="og:audio" content="">
 	<meta property="og:video" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<style>
 
 		* {
@@ -37,7 +39,8 @@
 		}
 
 		body {
-			width: 400px;
+			max-width: 400px;
+			width: 100%;
 			margin: auto;
 			padding: 1em;
 			color: #494949;
@@ -48,6 +51,10 @@
 		a, a:visited {
 			color: #21A9FC;
 			text-decoration: none;
+		}
+
+		button:hover {
+			background-color: #E64667;
 		}
 
 		.container {
@@ -66,7 +73,7 @@
 			border-radius: 0.3em;
 			display: block;
 			font-size: 1.2em;
-			width: 98%;
+			width: 32%;
 			margin: auto;
 			margin-bottom: 0.5em;
 			padding: 0.5em;
@@ -89,9 +96,11 @@
 		<img class="logo" src="icon.png"/>
 		<h2>Peach Desktop</h2>
 		<p>An unofficial desktop client for <a href="http://peach.cool">Peach</a> - built using unannounced API endpoints intercepted from the official iOS app.</p>
-		<a href="https://github.com/ummjackson/peach-desktop/releases/download/0.4.0/peach-desktop-0.4.0-osx.zip"><button>Download (OS X)</button></a>
+		<a href="https://github.com/ummjackson/peach-desktop/releases/download/untagged-c4fecca5ca3f4eebee62/peach-desktop-0.4.1-osx-x64.zip"><button class="fa fa-apple"> Mac</button></a>
+		<a href="https://github.com/ummjackson/peach-desktop/releases/download/untagged-c4fecca5ca3f4eebee62/peach-desktop-0.4.1-linux-x64.zip"><button class="fa fa-linux"> Linux</button></a>
+		<a href="https://github.com/ummjackson/peach-desktop/releases/download/untagged-c818c395e0733f629d1c/peach-desktop-0.4.1-win-x86.zip"><button class="fa fa-windows"> Windows</button></a>
 		<p>...or <a href="https://github.com/ummjackson/peach-desktop">browse the code on Github.</a></p>
-		<p><em>Windows coming soon!</em></p>
+		<p>Peach Desktop communicates directly with the Peach API servers, so you can rest assured that <strong>any data transmitted or received is safe and secure</strong> (including login credentials).</p>
 		<h4>Screenshots:</h4>
 		<div class="screenshots">
 			<a href="peach-1.png"><img src="peach-1.png"></a>
