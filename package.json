@@ -10,7 +10,10 @@
   "scripts": {
     "start": "electron app.js",
     "compile": "nunjucks-precompile public/views > public/views/compiled.js",
-    "build-osx": "electron-packager . 'Peach Desktop' --out=bin --platform=darwin --arch=x64 --version=0.36.4 --icon=icon.icns --prune"
+    "build-osx": "electron-packager . 'Peach Desktop' --out=bin --platform=darwin --arch=x64 --version=0.36.4 --icon=icon.icns --prune",
+    "build-linux": "electron-packager . 'Peach Desktop' --out=bin --platform=linux --arch=x64 --version=0.36.4 --icon=icon.icns --prune",
+    "build-win64": "electron-packager . 'Peach Desktop' --out=bin --platform=win32 --arch=x64 --version=0.36.4 --icon=icon.ico --prune",
+    "build-win32": "electron-packager . 'Peach Desktop' --out=bin --platform=win32 --arch=ia32 --version=0.36.4 --icon=icon.ico --prune"
   },
   "keywords": [
     "peach",
