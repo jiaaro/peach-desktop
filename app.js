@@ -4,6 +4,7 @@ var electron = require('electron');
 var path = require('path');
 var express = require('express');
 var request = require('request');
+var Menu = require("menu");
 
 // Initialize Express
 var server = express();
@@ -43,7 +44,33 @@ function createWindow () {
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
-app.on('ready', createWindow);
+app.on('ready', function () {
+  
+  // Create the browser window
+  createWindow();
+
+  // Create the application's main menu
+  var template = [{
+      label: "Application",
+      submenu: [
+          { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+      ]}, {
+      label: "Edit",
+      submenu: [
+          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+          { type: "separator" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]}
+  ];
+
+  // Set the application menu
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
