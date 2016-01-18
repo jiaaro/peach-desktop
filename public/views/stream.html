@@ -46,7 +46,7 @@
 	    	</video>	    	
 
 	    	{% else %}
-	    	<video class="video message" poster="{{ message.posterSrc }}" onclick="this.paused?this.play():this.pause();">
+	    	<video class="video message" poster="{{ message.posterSrc }}" loop>
 	    		<source src="{{ message.src }}" type="video/mp4">
 	    	</video>
 	    	{% endif %}
@@ -170,6 +170,34 @@ $.ajax({
 	headers: { Authorization: 'Bearer ' + localStorage.token },
 	success: function(data){},
 	error: function(xhr, type){}
+});
+
+// Video autoplay
+Zepto(function($){
+    // Get media - with autoplay disabled (audio or video)
+    var media = $('video').not("[autoplay='autoplay']");
+    var tolerancePixel = 300;
+
+    function checkMedia(){
+        // Get current browser top and bottom
+        var scrollTop = $(window).scrollTop() + tolerancePixel;
+        var scrollBottom = $(window).scrollTop() + $(window).height() - tolerancePixel;
+
+        //if ($(window).scrollTop() > $(window).height() - 10) {
+        media.each(function(index, el) {
+            var yTopMedia = $(this).offset().top;
+            var yBottomMedia = $(this).height() + yTopMedia;
+
+            if(scrollTop < yBottomMedia && scrollBottom > yTopMedia){
+                $(this).get(0).play();
+            } else {
+                $(this).get(0).pause();
+            }
+        });
+
+        //}
+    }
+    $(document).on('scroll', checkMedia);
 });
 
 // Show menu (TBD)
