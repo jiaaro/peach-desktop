@@ -101,4 +101,4 @@ $RECYCLE.BIN/
 
 ### Application ###
 bin/
-public/views/compiled.js
+public/
