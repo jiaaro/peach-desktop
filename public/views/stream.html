@@ -29,7 +29,7 @@
 	    {% elif message.type == 'link' %}
 	    	<div class="link message">
 	    		<p><a href="{{ message.url }}">{{ message.title }}</a></p>
-	    		<p class="gray status">{{ message.description }}</p>
+	    		<p class="gray small">{{ message.description }}</p>
 	    	</div>
 
 		{% elif message.type == 'image' %}
@@ -53,6 +53,16 @@
 
 	    {% elif message.type == 'music' %}
 	    	<iframe class="music message" src="https://embed.spotify.com/?uri=spotify:track:{{ message.spotifyData.track.id }}" width="400" height="80" frameborder="0" allowtransparency="false"></iframe>
+
+	    {% elif message.type == 'location' %}
+	    	<div class="location message">
+	    		<div class="small-icon" style="background-image: url({{ message.iconSrc }})"></div>
+	    		<div class="location-details">
+		    		<p>{{ message.name }}</p>
+		    		<p class="gray small">{{ message.formattedAddress[0] }}</p>
+		    		<p class="gray small">{{ message.formattedAddress[1] }}</p>		
+	    		</div>
+	    	</div>
 
 		{% endif %}
 

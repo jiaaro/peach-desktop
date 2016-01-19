@@ -258,7 +258,7 @@
 		width: 100%;
 	}
 
-	.text, .link {
+	.text, .link, .location {
 		padding: 0em 1em;
 	}
 
@@ -287,6 +287,25 @@
 
 	.message:last-child {
 		margin-bottom: 0;
+	}
+
+	.small-icon {
+		width: 32px;
+		height: 32px;
+		display: inline-block;
+		border-radius: 100%;
+		background: #9C9C9C no-repeat center;
+		background-size: cover;
+	}
+
+	.small {
+		font-size: 0.8em;
+	}
+
+	.location-details {
+		display: inline-block;
+		margin-left: 0.5em;
+		vertical-align: top;
 	}
 
 	.meta {
