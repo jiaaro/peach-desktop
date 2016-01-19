@@ -39,6 +39,14 @@ function login(email, password) {
     },
     error: function(xhr, type) {
       popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
+    },
+    beforeSend: function(){
+      $('body').addClass('modal-open');
+      $('#loader').velocity('fadeIn', {duration: 100});
+    },
+    complete: function(){
+      $('#loader').velocity('fadeOut', {duration: 50});
+      $('body').removeClass('modal-open');
     }
   });
 }
@@ -60,6 +68,14 @@ function loadView(view, endpoint) {
   },
   error: function(xhr, type){
     popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
+  },
+  beforeSend: function(){
+    $('body').addClass('modal-open');
+    $('#loader').velocity('fadeIn', {duration: 100});
+  },
+  complete: function(){
+    $('#loader').velocity('fadeOut', {duration: 50});
+    $('body').removeClass('modal-open');
   }
   });
 
@@ -99,7 +115,7 @@ Zepto(function($){
   });
 
   // Refresh connections every 30 seconds
-  setInterval(function(){ 
+  setInterval(function(){
     if ($('body').attr('id') == 'connections') {
       loadView('connections', '/connections');
     }
