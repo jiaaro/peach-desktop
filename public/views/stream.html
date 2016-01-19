@@ -51,6 +51,9 @@
 	    	</video>
 	    	{% endif %}
 
+	    {% elif message.type == 'music' %}
+	    	<iframe class="music message" src="https://embed.spotify.com/?uri=spotify:track:{{ message.spotifyData.track.id }}" width="400" height="80" frameborder="0" allowtransparency="false"></iframe>
+
 		{% endif %}
 
 	{% endfor %}

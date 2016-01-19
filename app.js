@@ -76,6 +76,12 @@ app.on('ready', function () {
   // Set the application menu
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
+  // Push any extra windows to the browser
+  mainWindow.webContents.on('new-window', function(e, url) {
+   e.preventDefault();
+   require('shell').openExternal(url);
+  });
+
 });
 
 // Quit when all windows are closed.
