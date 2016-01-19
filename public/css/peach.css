@@ -46,7 +46,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		background-color: #FEF0E5;
+		background-color: rgba(254, 240, 229, 0.65);
 		display: none;
 		z-index: 5;
 	}
