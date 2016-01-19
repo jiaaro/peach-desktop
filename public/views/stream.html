@@ -43,7 +43,7 @@
 	    	{% if message.subtype == 'looping photo' %}
 	    	<video class="looping-photo message" poster="{{ message.posterSrc }}" autoplay muted loop>
 	    		<source src="{{ message.src }}" type="video/mp4">
-	    	</video>	    	
+	    	</video>
 
 	    	{% else %}
 	    	<video class="video message" poster="{{ message.posterSrc }}" loop>
@@ -70,7 +70,7 @@
 
 		<div class="gray meta">
 			<i class="like-button fa fa-heart-o{% if post.likedByMe == true %} liked{% endif %}" data-postid="{{ post.id }}" data-likes="{{ post.likeCount }}">{% if post.likeCount > 0 %} {{ post.likeCount }}{% endif %}</i>
-			<i class="comment-button fa fa-comment-o" data-postid="{{ post.id }}">{% if post.commentCount %} {{ post.commentCount }}{% endif %}</i> 
+			<i class="comment-button fa fa-comment-o" data-postid="{{ post.id }}">{% if post.commentCount %} {{ post.commentCount }}{% endif %}</i>
 			<p> – {{ post.createdTime|fromNow }}</p>
 		</div>
 
@@ -81,7 +81,7 @@
 			<div class="comment">
 				<div class="small-avatar" style="background-image: url({% if comment.author.avatarSrc %}{{ comment.author.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
 				<div class="comment-body">
-					{{ comment.author.displayName }} 
+					{{ comment.author.displayName }}
 					<span class="gray">@{{ comment.author.name }}</span>
 					<p>{{ comment.body }}</p>
 				</div>
@@ -92,10 +92,8 @@
 				<input type="submit" value="Send" class="bg-green white">
 			</form>
 		</div>
-
+		<div class="post-seperator"></div>
 	</div>
-
-	<hr>
 
 {% endfor %}
 
