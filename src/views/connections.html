@@ -1,98 +1,98 @@
-
 <div class="box self" onclick="loadView('stream','/stream/id/{{ connections.data.requesterStream.id }}')">
-	<div class="avatar" style="background-image: url({{connections.data.requesterStream.avatarSrc}})"></div>
-	<div class="user-details">
-		<h3>{{connections.data.requesterStream.displayName}}</h3>
-		<p class="gray">
-			{% for post in connections.data.requesterStream.posts %}
-				{% if loop.last %}
-					{{ post.createdTime|fromNow }}
-				{% endif %}
-			{% endfor %}
-		</p>
-	</div>
+  <div class="avatar" style="background-image: url({{connections.data.requesterStream.avatarSrc}})"></div>
+  <div class="user-details">
+    <h3>{{connections.data.requesterStream.displayName}}</h3>
+    <p class="gray">
+      {% for post in connections.data.requesterStream.posts %}
+        {% if loop.last %}
+          {{ post.createdTime|fromNow }}
+        {% endif %}
+      {% endfor %}
+    </p>
+  </div>
 </div>
 
 <div class="bg-transparent box center no-padding">
-<button class="half-button bg-dark" onclick="loadView('requests','/connections')">Requests ({{ connections.data.inboundFriendRequests|length }})</button>
-<button class="half-button bg-green white add-friend">Add a friend</button>
+  <button class="half-button bg-dark" onclick="loadView('requests','/connections')">Requests ({{ connections.data.inboundFriendRequests|length }})</button>
+  <button class="half-button bg-green white add-friend">Add a friend</button>
 </div>
 
 <div class="friend-request">
-	<div class="close"></div>
-	<div class="friend-request-bar">Enter a friend's username below</div>
-	<form id="friend">
-		<input id="username" type="text" required="required" placeholder="ummjackson">
-		<input type="submit" class="bg-pink white" value="Add">
-	</form>
+  <div class="close"></div>
+  <div class="friend-request-bar">Enter a friend's username below</div>
+  <form id="friend">
+    <input id="username" type="text" required="required" placeholder="ummjackson">
+    <input type="submit" class="bg-pink white" value="Add">
+  </form>
 </div>
 
-
-{% for connection in connections.data.connections %}
-<div class="box connection" onclick="loadView('stream','/stream/id/{{ connection.id }}')">
-	<div class="avatar" style="background-image: url({% if connection.avatarSrc %}{{ connection.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
-	<div class="user-details">
-		<h3>{{ connection.displayName }}</h3>
-		{% if connection.unreadPostCount > 0 %}<div class="indicator bg-green"></div>{% endif %}
-		<p class="gray status">
-			{% for post in connection.posts %}
-				{% if loop.last %}
-					{{ post.createdTime|fromNow }}
-				{% endif %}
-			{% endfor %}
-		</p>
-	</div>
+<div class="connections__list">
+  {% for connection in connections.data.connections %}
+    <div class="box connection" onclick="loadView('stream','/stream/id/{{ connection.id }}')">
+      <div class="avatar" style="background-image: url({% if connection.avatarSrc %}{{ connection.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
+      <div class="user-details">
+        <h3>{{ connection.displayName }}</h3>
+        {% if connection.unreadPostCount > 0 %}
+          <div class="indicator bg-green"></div>
+        {% endif %}
+        <p class="gray status">
+          {% for post in connection.posts %}
+            {% if loop.last %}
+              {{ post.createdTime|fromNow }}
+            {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+    </div>
+  {% endfor %}
 </div>
-{% endfor %}
 
 <script>
+  // Open friend request
+  $('.add-friend').on('click', function() {
+    $('body').addClass('modal-open');
+    $('#overlay').show();
+    $('.friend-request').show();
+  });
 
-// Open friend request
-$('.add-friend').on('click', function(){
-	$('body').addClass('modal-open');
-	$('#overlay').show();
-	$('.friend-request').show();
+  // Close friend request
+  $('.close').on('click', function() {
+    $('.friend-request').hide();
+    $('#overlay').hide();
+    $('body').removeClass('modal-open');
+  });
 
-});
+  // Send friend request
+  $('#friend').on('submit', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var username = $('#username').val();
 
-// Send friend request
+    if (username != null) {
+      $.ajax({
+        type: 'POST',
+        url: 'http://localhost:1134/api/stream/n/' + username + '/connection',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.token
+        },
+        success: function(data) {
+          $('.friend-request').hide();
+          $('#overlay').hide();
+          $('body').removeClass('modal-open');
+          popAlert("Friend request sent!", "bg-green", "white");
+        },
+        error: function(xhr, type) {
+          $('.friend-request').hide();
+          $('#overlay').hide();
+          $('body').removeClass('modal-open');
+          popAlert("Couldn't send friend request. Try again.", "bg-red", "white");
+        }
+      });
+    }
+  });
 
-$('#friend').on('submit', function(e) {
-  e.preventDefault(); e.stopPropagation();
-  var username = $('#username').val();
-
-if (username != null) {
-	  $.ajax({
-	  type: 'POST',
-	  url: 'http://localhost:1134/api/stream/n/' + username + '/connection',
-	  headers: { Authorization: 'Bearer ' + localStorage.token },
-	  success: function(data){
-		$('.friend-request').hide();
-		$('#overlay').hide();
-		$('body').removeClass('modal-open');
-	  	popAlert("Friend request sent!", "bg-green", "white");
-	  },
-	  error: function(xhr, type){
-		$('.friend-request').hide();
-		$('#overlay').hide();
-		$('body').removeClass('modal-open');
-	  	popAlert("Couldn't send friend request. Try again.", "bg-red", "white");
-	  }
-	  });
-} 
-
-});
-
-// Close friend request
-$('.close').on('click', function() {
-	$('.friend-request').hide();
-	$('#overlay').hide();
-	$('body').removeClass('modal-open');
-});
-
-// Set global variables for reuse
-localStorage.displayName = '{{connections.data.requesterStream.displayName}}';
-localStorage.name = '{{connections.data.requesterStream.name}}';
-localStorage.avatarSrc = '{% if connections.data.requesterStream.avatarSrc %}{{ connections.data.requesterStream.avatarSrc }}{% else %}/img/default-avatar.png{% endif %}';
-
+  // Set global variables for reuse
+  localStorage.displayName = '{{connections.data.requesterStream.displayName}}';
+  localStorage.name = '{{connections.data.requesterStream.name}}';
+  localStorage.avatarSrc = '{% if connections.data.requesterStream.avatarSrc %}{{ connections.data.requesterStream.avatarSrc }}{% else %}/img/default-avatar.png{% endif %}';
 </script>
