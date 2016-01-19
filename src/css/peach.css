@@ -25,12 +25,12 @@
 
 	#content {
 		width: 100%;
-		max-width: 400px;
+		max-width: 100vw;
 	}
 
 	#overlay {
-		width: 400px;
-		height: 600px;
+		width: 100vw;
+		height: 100vh;
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -186,7 +186,7 @@
 	}
 
 	.user-details {
-		display: inline-block; 
+		display: inline-block;
 		vertical-align: top;
 		margin-left: 1em;
 		line-height: 1.5em;
@@ -221,7 +221,7 @@
 		border-radius: 100%;
 	}
 
-	.status { 
+	.status {
 		display: inline-block;
 	}
 
