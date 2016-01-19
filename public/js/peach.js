@@ -56,9 +56,18 @@ function loadView(view, endpoint) {
 
 }
 
+// Pop notification
 function popAlert(message, background, foreground) {
   $('#alert').removeClass().text(message).addClass(background + ' ' + foreground).velocity('slideDown').velocity("slideUp", { delay: 1500 });
 }
+
+// Link @ mentions to stream
+function linkMentions(selector) {
+  $(selector).each(function(index,item){
+    $(this).html($(this).html().replace(/@([a-z\d_]+)/ig, '<a onClick="loadView(\'stream\',\'/stream/id/$1\')">@$1</a>'));
+  });
+}
+
 
 // Start app
 Zepto(function($){
