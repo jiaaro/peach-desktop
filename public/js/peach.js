@@ -1,3 +1,12 @@
+// Electron shell
+var shell = require('electron').shell;
+
+// Open links in external browser
+$(document).on('click', 'a[href^="http"]', function(event) {
+    event.preventDefault();
+    shell.openExternal(this.href);
+  });
+
 // Configure Nunjucks
 var env = nunjucks.configure('views', { autoescape: true });
 
