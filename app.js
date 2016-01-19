@@ -64,7 +64,13 @@ app.on('ready', function () {
           { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
           { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
           { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-      ]}
+      ],
+      label: "View",
+      submenu: [
+         { label: 'Reload', accelerator: 'CmdOrCtrl+R', click: function() { BrowserWindow.getFocusedWindow().reloadIgnoringCache(); }}, 
+         { label: 'Toggle DevTools', accelerator: 'Alt+CmdOrCtrl+I', click: function() { BrowserWindow.getFocusedWindow().toggleDevTools(); }}  
+      ]
+    }
   ];
 
   // Set the application menu
