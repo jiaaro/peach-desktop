@@ -65,7 +65,7 @@
 
 	input {
 		background-color: #F5F5F5;
-		border: 0;
+		border: 1px solid transparent;
 		border-radius: 0.3em;
 		display: block;
 		font-size: 1.2em;
@@ -78,8 +78,19 @@
 		white-space: normal;
 	}
 
+	input:active,
+	input:focus {
+		outline: 0;
+		border-color: #FE4E72;
+	}
+
 	input[type="submit"] {
 		cursor: pointer;
+	}
+
+	button:active,
+	button:focus {
+		outline: 0;
 	}
 
 	.comment-form input {
@@ -275,10 +286,19 @@
 	    margin-right: 0.5em;
 	}
 
-	hr {
-		border: 1px solid #F3F3F3;
+	.post {
+		padding-bottom: 1em;
+	}
+
+	.post-seperator {
+		height: 1px;
 		width: 2em;
-		margin: 1em 0em;
+		margin: 1em 0em 0em 1em;
+		background-color: #F3F3F3;
+	}
+
+	.post:last-of-type .post-seperator {
+		display: none;
 	}
 
 	.message {
