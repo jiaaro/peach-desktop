@@ -21,7 +21,6 @@
 
 	.modal-open {
 		overflow: hidden;
-		position: absolute;
 	}
 
 	#content {
