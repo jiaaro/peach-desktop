@@ -2,14 +2,14 @@
   "name": "peach-desktop",
   "version": "0.4.1",
   "description": "Desktop client for peach.cool",
-  "repository" : { 
-    "type" : "git"
-  , "url" : "https://github.com/ummjackson/peach-desktop.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ummjackson/peach-desktop.git"
   },
   "main": "app.js",
   "scripts": {
     "start": "electron app.js",
-    "compile": "nunjucks-precompile public/views > public/views/compiled.js",
+    "compile": "gulp",
     "build-osx": "electron-packager . 'Peach Desktop' --out=bin --platform=darwin --arch=x64 --version=0.36.4 --icon=icon.icns --prune",
     "build-linux": "electron-packager . 'Peach Desktop' --out=bin --platform=linux --arch=x64 --version=0.36.4 --icon=icon.icns --prune",
     "build-win64": "electron-packager . 'Peach Desktop' --out=bin --platform=win32 --arch=x64 --version=0.36.4 --icon=icon.ico --prune",
@@ -29,6 +29,9 @@
   "devDependencies": {
     "electron-packager": "^5.2.0",
     "electron-prebuilt": "^0.36.3",
-    "nunjucks": "^2.3.0"
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-nunjucks": "^2.1.1"
   }
 }
