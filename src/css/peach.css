@@ -16,7 +16,7 @@
 		padding: 0;
 		color: #494949;
 		background-color: #FEF0E5;
-		font-family: -apple-system, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+		font-family: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 	}
 
 	.modal-open {
@@ -38,51 +38,6 @@
 		opacity: 0.5;
 		display: none;
 		z-index: 2;
-	}
-
-	#loader {
-		width: 100vw;
-		height: 100vh;
-		position: fixed;
-		top: 0;
-		left: 0;
-		background-color: rgba(254, 240, 229, 0.65);
-		display: none;
-		z-index: 5;
-	}
-
-	.loader__inner {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-
-	.loader__center {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		display: block;
-		margin-bottom: 0;
-		margin-right: -50%;
-		transform: translate(-50%, -50%);
-	}
-
-	.loader__center img {
-		animation-duration: 1s;
-		animation-iteration-count: infinite;
-		animation-name: pulse;
-	}
-
-	@keyframes pulse {
-		from {
-			transform: scale3d(1, 1, 1);
-		}
-		50% {
-			transform: scale3d(1.05, 1.05, 1.05);
-		}
-		to {
-			transform: scale3d(1, 1, 1);
-			}
 	}
 
 	a, a:visited {

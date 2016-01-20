@@ -1,0 +1,210 @@
+<div class="stream-bar">
+  <div class="back-button fa fa-chevron-left" onclick="loadView('connections','/connections')"></div>
+  <div class="avatar" style="background-image: url({% if stream.data.avatarSrc %}{{ stream.data.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
+  <div class="user-details">
+    <h3>{{ stream.data.displayName }}</h3>
+    <p class="gray status">@{{ stream.data.name }}</p>
+  </div>
+  <div class="menu self">
+    <div class="settings fa fa-cog gray"></div>
+    <div class="notifications fa fa-bell gray"></div>
+  </div>
+  <div class="menu friend">
+    <div class="friend-connections fa fa-users gray"></div>
+    <div class="friend-status fa fa-smile-o gray"></div>
+  </div>
+</div>
+
+<div class="posts">
+  {% for post in stream.data.posts|reverse %}
+    <div class="post wrap">
+      {% for message in post.message %}
+        {% if message.type == 'text' %}
+          <div class="text message">{{ message.text }}</div>
+        {% elif message.type == 'link' %}
+          <div class="link message">
+            <p><a href="{{ message.url }}">{{ message.title }}</a></p>
+            <p class="gray small">{{ message.description }}</p>
+          </div>
+        {% elif message.type == 'image' %}
+          <img class="image message" src="{{ message.src }}"/>
+        {% elif message.type == 'gif' %}
+          <img class="gif message" src="{{ message.src }}"/>
+        {% elif message.type == 'video' %}
+          {% if message.subtype == 'looping photo' %}
+            <video class="looping-photo message" poster="{{ message.posterSrc }}" autoplay muted loop>
+              <source src="{{ message.src }}" type="video/mp4">
+            </video>
+          {% else %}
+            <video class="video message" poster="{{ message.posterSrc }}" loop>
+              <source src="{{ message.src }}" type="video/mp4">
+            </video>
+          {% endif %}
+        {% elif message.type == 'music' %}
+          <iframe class="music message" src="https://embed.spotify.com/?uri=spotify:track:{{ message.spotifyData.track.id }}" width="400" height="80" frameborder="0" allowtransparency="false"></iframe>
+        {% elif message.type == 'location' %}
+          <div class="location message">
+            <div class="small-icon" style="background-image: url({{ message.iconSrc }})"></div>
+            <div class="location-details">
+              <p>{{ message.name }}</p>
+              <p class="gray small">{{ message.formattedAddress[0] }}</p>
+              <p class="gray small">{{ message.formattedAddress[1] }}</p>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <div class="gray meta">
+        <i class="like-button fa fa-heart-o{% if post.likedByMe == true %} liked{% endif %}" data-postid="{{ post.id }}" data-likes="{{ post.likeCount }}">{% if post.likeCount > 0 %} {{ post.likeCount }}{% endif %}</i>
+        <i class="comment-button fa fa-comment-o" data-postid="{{ post.id }}">{% if post.commentCount %} {{ post.commentCount }}{% endif %}</i>
+        <p> – {{ post.createdTime|fromNow }}</p>
+      </div>
+
+      <div class="comments" data-postid="{{ post.id }}">
+        <div class="close"></div>
+        <div class="comment-bar">Comments</div>
+        <div class="comments__list">
+          {% for comment in post.comments %}
+            <div class="comment">
+              <div class="small-avatar" style="background-image: url({% if comment.author.avatarSrc %}{{ comment.author.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
+              <div class="comment-body">
+                {{ comment.author.displayName }}
+                <span class="gray">@{{ comment.author.name }}</span>
+                <p>{{ comment.body }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <form class="comment-form" data-postid="{{ post.id }}">
+          <input type="text" name="body" placeholder="Say something nice">
+          <input type="submit" value="Send" class="bg-green white">
+        </form>
+      </div>
+      <div class="post-seperator"></div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+
+// Like or unlike a post
+$('.like-button').on('click', function(){
+
+  var post = $(this);
+
+  // Post is not yet liked, like it
+  if (!post.hasClass('liked')) {
+
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:1134/api/like',
+      headers: { Authorization: 'Bearer ' + localStorage.token },
+      data: JSON.stringify({postId: post.data('postid')}),
+      contentType: 'application/json',
+      success: function(data){
+        likes = parseInt(post.data('likes')) + 1;
+        post.text(' ' + likes).data('likes',likes).addClass('liked');
+      },
+      error: function(xhr, type){
+        popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
+      }
+    });
+
+  }
+  // Post is already liked, unlike it
+  else {
+    $.ajax({
+      type: 'DELETE',
+      url: 'http://localhost:1134/api/like/postID/' + post.data('postid'),
+      headers: { Authorization: 'Bearer ' + localStorage.token },
+      success: function(data){
+        likes = parseInt(post.data('likes')) - 1;
+        post.removeClass('liked').data('likes', likes);
+        if (likes < 1) { post.text('')}
+        else { post.text(' ' + likes) }
+      },
+      error: function(xhr, type){
+        popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
+      }
+    });
+  }
+});
+
+// View comments
+$('.comment-button').on('click', function() {
+  var post = $(this);
+  $('body').addClass('modal-open');
+  $('#overlay').show();
+  $('.comments[data-postid="' + post.data('postid') + '"]').show();
+});
+
+// Close comments
+$('.close').on('click', function() {
+  $('.comments').hide();
+  $('#overlay').hide();
+  $('body').removeClass('modal-open');
+});
+
+$('.comment-form').on('submit', function(e) {
+  e.preventDefault(); e.stopPropagation();
+  var form = $(this);
+  var comment = $(this).children('input[type="text"]').val();
+  var postId = $(this).data('postid');
+  var commentsList = $('.comments__list');
+
+  $.post('/api/comment', JSON.stringify({ body:comment , postId:postId }), function(response){
+    console.log(response);
+    commentsList.append('<div class="comment"><div class="small-avatar" style="background-image:url(' + localStorage.avatarSrc + ')"></div><div class="comment-body">' + localStorage.displayName + '<span class="gray"> @' + localStorage.name + '</span><p>' + comment +  '</p></div></div>');
+    form.children('input[type="text"]').val('');
+  });
+});
+
+// Mark stream as read once loaded
+$.ajax({
+  type: 'PUT',
+  url: 'http://localhost:1134/api/stream/id/{{ stream.data.id }}/read',
+  headers: { Authorization: 'Bearer ' + localStorage.token },
+  success: function(data){},
+  error: function(xhr, type){}
+});
+
+// Video autoplay
+Zepto(function($){
+  // Get media - with autoplay disabled (audio or video)
+  var media = $('video').not("[autoplay='autoplay']");
+  var tolerancePixel = 300;
+
+  function checkMedia(){
+    // Get current browser top and bottom
+    var scrollTop = $(window).scrollTop() + tolerancePixel;
+    var scrollBottom = $(window).scrollTop() + $(window).height() - tolerancePixel;
+
+    //if ($(window).scrollTop() > $(window).height() - 10) {
+    media.each(function(index, el) {
+      var yTopMedia = $(this).offset().top;
+      var yBottomMedia = $(this).height() + yTopMedia;
+
+      if(scrollTop < yBottomMedia && scrollBottom > yTopMedia){
+        $(this).get(0).play();
+      } else {
+        $(this).get(0).pause();
+      }
+    });
+    //}
+  }
+
+  $(document).on('scroll', checkMedia);
+  checkMedia();
+});
+
+// Show menu (TBD)
+/*
+  if ('{{ stream.data.id }}' == localStorage.id) {
+    $('.menu.self').show();
+  }
+  else {
+    $('.menu.friend').show();
+  }
+*/
+
+</script>
