@@ -19,6 +19,21 @@ env.addFilter('fromNow', function(dts) {
   return s;
 });
 
+// Attributed string
+env.addFilter('attributedString', function(string, attributes) {
+  if (attributes) {
+    for (var i = attributes.length - 1; i >= 0; i--) {
+      attribute = attributes[i];
+      var tag; if (attribute.type == 'bold') { tag = 'b' } else { tag = 'em' };
+      string = string.substring(0, attribute.range[0]) + '<' + tag + '>' + string.substring(attribute.range[0], attribute.range[0]+attribute.range[1]) + '</' + tag + '>' + string.substring(attribute.range[0] + attribute.range[1]);
+    }
+    return string;
+  }
+  else {
+    return string;
+  }
+});
+
 // Authorization function
 function login(email, password) {
   $.ajax({
@@ -96,6 +111,9 @@ function linkMentions(selector) {
 
 // Start app
 Zepto(function($){
+
+  // Don't cache results!
+  $.ajaxSettings.cache = false;
 
   // If authorization token exists, default to connections view
   if (localStorage.token && localStorage.id) {

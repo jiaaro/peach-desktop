@@ -22,7 +22,7 @@
 
     {% for message in post.message %}
       {% if message.type == 'text' %}
-      <div class="text message">{{ message.text }}</div>
+      <div class="text message">{{ message.text|escape|attributedString(message.attributes)|safe }}</div>
 
       {% elif message.type == 'link' %}
       <div class="link message">
