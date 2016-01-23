@@ -1,0 +1,30 @@
+<div class="stream-bar">
+  <div class="back-button fa fa-chevron-left" onclick="loadView('connections','/connections')"></div>
+  <div class="user-details">
+    <h3>Activity</h3>
+    <p class="gray status">{% if activity.data.unreadActivityItemCount == 0 %}No unread items{% else %}{{ activity.data.unreadActivityItemCount }} unread items{% endif %}</p>
+  </div>
+</div>
+</div>
+
+<div class="activity">
+{% for item in activity.data.activityItems %}
+
+  {% if item.type == 'comment' %}
+  <div class="activity-item">
+        <div class="small-avatar" style="background-image: url({% if item.body.authorStream.avatarSrc %}{{ item.body.authorStream.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
+        <div class="comment-body">
+          {{ item.body.authorStream.displayName }}
+          <span class="gray">@{{ item.createdTime|fromNow }}</span>
+          <p>{{ item.body.commentBody }}</p>
+        </div>
+  </div>
+  {% endif %}
+
+{% endfor %}
+
+</div>
+
+<script>
+
+</script>

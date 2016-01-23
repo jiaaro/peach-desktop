@@ -300,7 +300,7 @@ button:focus {
   margin-top: 87px;
 }
 
-.posts {
+.posts, .activity {
   margin-top: 87px;
   background-color: #FFFFFF;
   padding-top: 1em;
