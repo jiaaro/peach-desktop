@@ -19,6 +19,10 @@ body {
   font-family: -apple-system, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
+#network {
+  background-color: #D1F5F5 !important;
+}
+
 .modal-open {
   overflow: hidden;
 }
@@ -37,7 +41,7 @@ body {
   background-color: #000000;
   opacity: 0.5;
   display: none;
-  z-index: 2;
+  z-index: 3;
 }
 
 #loader {
@@ -99,6 +103,14 @@ a, a:visited {
   margin-top: 0.5em;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.box:last-of-type {
+  margin-bottom: 4.5em;
+}
+
+.network-connection {
+  border: 2px solid #C9E9E6 !important;
 }
 
 .view-name {
@@ -206,9 +218,10 @@ button:focus {
   text-align: center;
   display: none;
   cursor: pointer;
+  z-index: 10;
 }
 
-.connection, .back-button, .self {
+.connection, .network-connection, .back-button, .self {
   cursor: pointer;
 }
 
@@ -407,11 +420,11 @@ video {
   display: none;
   padding: 1em;
   border-radius: 0.6em;
-  z-index: 2;
+  z-index: 4;
   overflow: auto;
 }
 
-.friend-request {
+.friend-request, .network-request {
   width: 360px;
   position: fixed;
   top: 20px;
@@ -420,11 +433,11 @@ video {
   display: none;
   padding: 1em;
   border-radius: 0.6em;
-  z-index: 2;
+  z-index: 4;
   overflow: auto;
 }
 
-.comment-bar, .friend-request-bar {
+.comment-bar, .friend-request-bar, .network-request-bar {
   background-color: #FFFFFF;
   width: 100%;
   text-align: center;
@@ -460,8 +473,53 @@ video {
   cursor: pointer;
 }
 
+.toggle {
+  position: fixed;
+  bottom: 1em;
+  width: 70px;
+  left: 50%;
+  margin-left: -35px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 0.5em;
+  box-shadow: 0px 8px 6px -6px #999999;
+  text-align: center;
+  z-index: 2;
+  font-size: 1.2em;
+}
+
+.toggle div {
+  cursor: pointer;
+}
+
+.toggle .fa-home {
+  font-size: 1.2em;
+}
+
 .close:after {
   content: '✖'; /* UTF-8 symbol */
+}
+
+.connections-overlay {
+  width: 400px;
+  height: 600px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom,  rgba(254,240,229,0) 80%,rgba(254,240,229,0.9));
+}
+
+.network-overlay {
+  width: 400px;
+  height: 600px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom,  rgba(254,240,229,0) 80%,rgba(209,245,245,0.9));  
 }
 
 .wrap {

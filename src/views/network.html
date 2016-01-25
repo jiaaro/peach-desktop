@@ -1,0 +1,80 @@
+<div class="network-overlay"></div>
+<div class="toggle">
+  <div class="fa fa-users" onclick="loadView('network','/connections/explore')"></div>
+  <div class="fa fa-home gray" onclick="loadView('connections','/connections')"></div>
+</div>
+
+<h2 class="view-name">Friends of Friends</h2>
+
+<div class="network-request">
+  <div class="close"></div>
+  <div class="network-request-bar"></div>
+  <form id="network-form">
+    <input id="username" type="text" value="" style="display:none;">
+    <input type="submit" class="bg-pink white" value="Send Request">
+  </form>
+</div>
+
+{% for connection in network.data.connections %}
+<div class="box network-connection" data-name="{{ connection.name }}">
+  <div class="avatar" style="background-image: url({% if connection.avatarSrc %}{{ connection.avatarSrc }}{% else %}/img/default-avatar.png{% endif %})"></div>
+  <div class="user-details">
+    <h3>{{ connection.displayName }}</h3>
+    {% if connection.unreadPostCount > 0 %}<div class="indicator bg-green"></div>{% endif %}
+    <p class="gray status">
+    {% for post in connection.posts %}
+      {% if loop.last %}
+        {{ post.createdTime|fromNow }}
+      {% endif %}
+    {% endfor %}
+    </p>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+
+// Open request friend dialog
+$('.network-connection').on('click', function(){
+  $('body').addClass('modal-open');
+  $('#overlay').show();
+
+  $('.network-request-bar').text('Friend request @' + $(this).data('name') + '?');
+  $('#username').attr('value', $(this).data('name'));
+  $('.network-request').show();
+});
+
+// Close friend request
+$('.close').on('click', function() {
+  $('.network-request').hide();
+  $('#overlay').hide();
+  $('body').removeClass('modal-open');
+});
+
+// Send friend request
+$('#network-form').on('submit', function(e) {
+  e.preventDefault(); e.stopPropagation();
+  var username = $('#username').val();
+
+  if (username != null) {
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:1134/api/stream/n/' + username + '/connection',
+      headers: { Authorization: 'Bearer ' + localStorage.token },
+      success: function(data){
+        $('.network-request').hide();
+        $('#overlay').hide();
+        $('body').removeClass('modal-open');
+        popAlert("Friend request sent!", "bg-green", "white");
+      },
+      error: function(xhr, type){
+        $('.network-request').hide();
+        $('#overlay').hide();
+        $('body').removeClass('modal-open');
+        popAlert("Couldn't send friend request. Try again.", "bg-red", "white");
+      }
+    });
+  }
+});
+
+</script>

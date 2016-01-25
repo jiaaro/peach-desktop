@@ -1,3 +1,8 @@
+<div class="connections-overlay"></div>
+<div class="toggle">
+  <div class="fa fa-users gray" onclick="loadView('network','/connections/explore')"></div>
+  <div class="fa fa-home" onclick="loadView('connections','/connections')"></div>
+</div>
 <div class="box self" onclick="loadView('stream','/stream/id/{{ connections.data.requesterStream.id }}')">
   <div class="avatar" style="background-image: url({{connections.data.requesterStream.avatarSrc}})"></div>
   <div class="user-details">
