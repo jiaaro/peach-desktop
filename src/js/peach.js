@@ -79,18 +79,23 @@ function loadView(view, endpoint) {
       if (!($('body').attr('id') == 'connections' && view == 'connections')) {
         window.scrollTo(0,0);
       }
-      $('body').attr('id', view);
+      
     },
     error: function(xhr, type){
       popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
     },
     beforeSend: function(){
+      if ($('body').attr('id') != view) {
       $('body').addClass('modal-open');
       $('#loader').velocity('fadeIn', {duration: 100});
+      }
     },
     complete: function(){
+      if ($('body').attr('id') != view) {
       $('#loader').velocity('fadeOut', {duration: 50});
       $('body').removeClass('modal-open');
+      $('body').attr('id', view);
+      }
     }
   });
 
