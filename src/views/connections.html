@@ -55,7 +55,7 @@
 $('.add-friend').on('click', function(){
   $('body').addClass('modal-open');
   $('#overlay').show();
-  $('.friend-request').show();
+  $('.friend-request').velocity('transition.slideDownIn', 500);
 });
 
 // Send friend request
@@ -70,13 +70,13 @@ $('#friend').on('submit', function(e) {
       url: 'http://localhost:1134/api/stream/n/' + username + '/connection',
       headers: { Authorization: 'Bearer ' + localStorage.token },
       success: function(data){
-        $('.friend-request').hide();
+        $('.friend-request').velocity('transition.slideUpOut', 250);
         $('#overlay').hide();
         $('body').removeClass('modal-open');
         popAlert("Friend request sent!", "bg-green", "white");
       },
       error: function(xhr, type){
-        $('.friend-request').hide();
+        $('.friend-request').velocity('transition.slideUpOut', 250);
         $('#overlay').hide();
         $('body').removeClass('modal-open');
         popAlert("Couldn't send friend request. Try again.", "bg-red", "white");
@@ -87,7 +87,7 @@ $('#friend').on('submit', function(e) {
 
 // Close friend request
 $('.close').on('click', function() {
-  $('.friend-request').hide();
+  $('.friend-request').velocity('transition.slideUpOut', 250);
   $('#overlay').hide();
   $('body').removeClass('modal-open');
 });
