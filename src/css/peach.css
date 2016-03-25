@@ -34,7 +34,7 @@ body {
 
 #overlay {
   width: 400px;
-  height: 600px;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -412,9 +412,9 @@ video {
 
 .comments {
   width: 360px;
-  height: 400px;
   position: fixed;
   top: 20px;
+  bottom: 160px;
   left: 20px;
   background-color: #FFF;
   display: none;
@@ -502,7 +502,7 @@ video {
 
 .connections-overlay {
   width: 400px;
-  height: 600px;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -513,13 +513,13 @@ video {
 
 .network-overlay {
   width: 400px;
-  height: 600px;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(to bottom,  rgba(254,240,229,0) 80%,rgba(209,245,245,0.9));  
+  background: linear-gradient(to bottom,  rgba(254,240,229,0) 80%,rgba(209,245,245,0.9));
 }
 
 .wrap {
