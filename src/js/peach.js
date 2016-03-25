@@ -27,11 +27,8 @@ env.addFilter('attributedString', function(string, attributes) {
       var tag; if (attribute.type == 'bold') { tag = 'b' } else { tag = 'em' };
       string = string.substring(0, attribute.range[0]) + '<' + tag + '>' + string.substring(attribute.range[0], attribute.range[0]+attribute.range[1]) + '</' + tag + '>' + string.substring(attribute.range[0] + attribute.range[1]);
     }
-    return string;
   }
-  else {
-    return string;
-  }
+  return string.replace(/\n/g, "<br>");
 });
 
 // Authorization function
