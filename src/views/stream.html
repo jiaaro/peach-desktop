@@ -17,7 +17,7 @@
 
 <div class="posts">
 
-  {% for post in stream.data.posts|reverse %}
+  {% for post in stream.data.posts %}
   <div class="post wrap">
 
     {% for message in post.message %}
@@ -31,19 +31,19 @@
       </div>
 
       {% elif message.type == 'image' %}
-      <img class="image message" src="{{ message.src }}"/>
+      <img class="image message" src="{{ message.src }}" width="400" height="{{ message|imageHeight }}"/>
 
       {% elif message.type == 'gif' %}
-      <img class="gif message" src="{{ message.src }}"/>
+      <img class="gif message" src="{{ message.src }}" width="400" height="{{ message|imageHeight }}"/>
 
       {% elif message.type == 'video' %}
 
         {% if message.subtype == 'looping photo' %}
-        <video class="looping-photo message" poster="{{ message.posterSrc }}" autoplay muted loop>
+        <video class="looping-photo message" poster="{{ message.posterSrc }}" autoplay muted loop width="400" height="{{ message|imageHeight }}">
           <source src="{{ message.src }}" type="video/mp4">
         </video>
         {% else %}
-        <video class="video message" poster="{{ message.posterSrc }}" loop>
+        <video class="video message" poster="{{ message.posterSrc }}" loop width="400" height="{{ message|imageHeight }}">
           <source src="{{ message.src }}" type="video/mp4">
         </video>
         {% endif %}
@@ -162,7 +162,7 @@ $('.comment-form').on('submit', function(e) {
 });
 
 // Close comments
-$('.close').on('click', function() {
+$('.close, #overlay').on('click', function() {
   $('.comments').hide();
   $('#overlay').hide();
   $('body').removeClass('modal-open');

@@ -31,6 +31,11 @@ env.addFilter('attributedString', function(string, attributes) {
   return string.replace(/\n/g, "<br>");
 });
 
+env.addFilter('imageHeight', function(image) {
+  var APP_WIDTH = 400;
+  return (APP_WIDTH * image.height / image.width).toFixed(0);
+});
+
 // Authorization function
 function login(email, password) {
   $.ajax({
@@ -73,10 +78,13 @@ function loadView(view, endpoint) {
     success: function(data){
       console.log(data);
       $('#content').html(nunjucks.render(view + '.html', { [view]: data }));
-      if (!($('body').attr('id') == 'connections' && view == 'connections')) {
+
+      if (view == 'stream') {
+        window.scrollTo(0, window.document.body.clientHeight);
+      }
+      else if (!($('body').attr('id') == 'connections' && view == 'connections')) {
         window.scrollTo(0,0);
       }
-      
     },
     error: function(xhr, type){
       popAlert("Couldn't connect to Peach. Try again later.", "bg-red", "white");
